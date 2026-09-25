@@ -61,10 +61,10 @@ Abra `robo_1doc.py` num editor de texto e ajuste o bloco `CONFIGURACOES` no iní
 
 | Variável | O que é | Exemplo |
 |---|---|---|
-| `URL_1DOC` | Endereço do 1Doc usado no navegador | `https://cacador.1doc.com.br/` |
+| `URL_1DOC` | Endereço do 1Doc usado no navegador | `https://cidade.1doc.com.br/` |
 | `PASTA_BASE` | Pasta que contém as pastas de ano | `Z:\secretaria` |
-| `BUSCA_UNIDADE` | Texto digitado no campo "Para" | `Arquivo saude` |
-| `OPCAO_UNIDADE` | Texto exato da unidade na lista | `Arquivo Saúde - Arquivo Saúde` |
+| `BUSCA_UNIDADE` | Texto digitado no campo "Para" | `nome de busca` |
+| `OPCAO_UNIDADE` | Texto exato da unidade na lista | `nome a ser selecionado` |
 | `TEXTO_MENSAGEM` | Corpo da mensagem (`{saudacao}` vira "bom dia" ou "boa tarde") | `Prezados, {saudacao}!\nSegue comprovante de pagamento.` |
 | `MODO_CONFERENCIA` | Se `True`, pede confirmação antes de cada encaminhamento | `True` |
 | `TIPOS` | Como cada tipo de arquivo aparece no 1Doc | ver código |

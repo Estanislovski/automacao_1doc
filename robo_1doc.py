@@ -29,14 +29,14 @@ from pathlib import Path
 # CONFIGURACOES
 
 # Endereco do 1Doc 
-URL_1DOC = "https://cacador.1doc.com.br/"
+URL_1DOC = "https://cidade.1doc.com.br/"
 
 # Pasta base onde ficam as pastas de ano 
-PASTA_BASE = r"Z:\saúde"
+PASTA_BASE = r"Z:\secretaria"
 
 # Unidade de destino: o que digitar na busca e o texto exato da opcao
-BUSCA_UNIDADE = "Arquivo saude"
-OPCAO_UNIDADE = "Arquivo Saúde - Arquivo Saúde"
+BUSCA_UNIDADE = "nome de busca"
+OPCAO_UNIDADE = "nome a ser selecionado"
 
 # Texto padrao
 TEXTO_MENSAGEM = "Prezados, {saudacao}!\nSegue comprovante de pagamento."
@@ -78,9 +78,7 @@ class Pendencia(Exception):
     """Situacao em que o robo prefere nao mexer e deixa para conferencia manual."""
 
 
-# ---------------------------------------------------------------------
 # Utilitarios de texto, data e pastas
-# ---------------------------------------------------------------------
 
 def normalizar(texto):
     texto = unicodedata.normalize("NFKD", texto or "")
@@ -163,9 +161,7 @@ def registrar_processado(arquivo):
         w.writerow([str(arquivo).lower(), datetime.now().strftime("%d/%m/%Y %H:%M:%S")])
 
 
-# ---------------------------------------------------------------------
 # Utilitarios de tela
-# ---------------------------------------------------------------------
 
 def primeiro_visivel(loc, timeout=10):
     fim = time.time() + timeout
@@ -225,9 +221,7 @@ def perguntar(msg):
     return input(msg).strip().lower()
 
 
-# ---------------------------------------------------------------------
 # Passos no 1Doc
-# ---------------------------------------------------------------------
 
 def garantir_login(page):
     page.goto(URL_1DOC)
@@ -500,9 +494,7 @@ def processar_arquivo(page, arquivo, tipo, numero, ano):
     return reaberto
 
 
-# ---------------------------------------------------------------------
 # Programa principal
-# ---------------------------------------------------------------------
 
 def main():
     if len(sys.argv) > 1:
