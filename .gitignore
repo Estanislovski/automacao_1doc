@@ -1,0 +1,10 @@
+# Sessao do navegador (contem o login do 1Doc)
+perfil_navegador/
+
+# Relatorios, prints e historico (contem dados de processos)
+relatorios/
+processados.csv
+
+# Python
+__pycache__/
+*.pyc
