@@ -1,0 +1,31 @@
+ROBO DE ENCAMINHAMENTO NO 1DOC
+
+INSTALACAO (uma vez so, depois que a TI instalar o Python)
+1. Coloque os arquivos robo_1doc.py, instalar.bat e executar.bat numa mesma pasta
+   (ex.: Documentos\Robo 1Doc).
+2. De dois cliques em instalar.bat e espere terminar.
+3. Abra o robo_1doc.py no Bloco de Notas e confira o bloco CONFIGURACOES:
+   URL_1DOC: o endereco do 1Doc que aparece no navegador
+   PASTA_BASE: troque "secretaria" pelo nome real da pasta no Z:
+   TIPOS: se "Proc ADM" aparecer no 1Doc com outro nome, ajuste ali
+
+USO DIARIO
+1. De dois cliques em executar.bat.
+2. Na primeira vez, o Edge abre e pede login no 1Doc. Entre, volte na janela
+   preta e aperte Enter. Nas proximas vezes o login fica salvo.
+3. Com o MODO_CONFERENCIA ligado, o robo preenche tudo e pergunta antes de
+   cada encaminhamento: digite s para confirmar ou n para pular.
+4. Nao mexa na janela do Edge do robo enquanto ele trabalha.
+
+PROCESSAR UMA DATA ESPECIFICA
+Abra o Prompt de Comando na pasta do robo e digite, por exemplo:
+executar.bat 24/09/2026
+
+O QUE O ROBO GERA
+relatorios\relatorio_....csv: o que foi encaminhado, reaberto ou ficou pendente
+relatorios\prints_erros: um print da tela de cada arquivo que deu problema
+processados.csv: lista do que ja foi encaminhado (evita encaminhar duas vezes)
+
+QUANDO DESLIGAR O MODO CONFERENCIA
+Depois de alguns dias sem nenhum erro, troque MODO_CONFERENCIA = True
+por MODO_CONFERENCIA = False. A partir dai ele faz tudo sozinho.

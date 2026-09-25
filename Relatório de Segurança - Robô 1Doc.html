@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Arquitetura e Segurança - Robô 1Doc</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #1a365d;
+            border-bottom: 2px solid #2b6cb0;
+            padding-bottom: 10px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #2b6cb0;
+            margin-top: 30px;
+            font-size: 18px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #2d3748;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+        .metadata {
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 0 4px 4px 0;
+        }
+        .metadata p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f7fafc;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        code {
+            background-color: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 13px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 12px;
+            color: #718096;
+        }
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            h1, h2 {
+                page-break-after: avoid;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Relatório de Arquitetura, Segurança e Governança do Robô de Automação (1Doc)</h1>
+
+    <div class="metadata">
+        <p><strong>Cliente:</strong> Secretaria Munipal de Fazenda, Setor de Tesouraria</p>
+        <p><strong>Automação:</strong> Robô de Encaminhamento de Comprovantes no Sistema 1Doc (<code>robo_1doc.py</code>)</p>
+        <p><strong>Elaborado por:</strong> Paulo Eduardo Estanislovski</p>
+        <p><strong>Data:</strong> 25 de Setembro de 2026</p>
+        <p><strong>Objetivo:</strong> Apresentar a estrutura técnica, regras de execução, transparência e mecanismos de segurança do script Python de automação do 1Doc e de seus scripts de inicialização.</p>
+    </div>
+
+    <h2>1. Resumo Executivo e Propósito</h2>
+    <p>A automação foi desenvolvida em <strong>Python 3</strong> com o objetivo exclusivo de otimizar o envio de comprovantes de pagamento via plataforma 1Doc (<code>https://cacador.1doc.com.br/</code>).</p>
+    <p>A rotina atua como um assistente digital de rotina: lê os relatórios/comprovantes em formato PDF de uma rede local restrita (<code>Z:\secretaria</code>), identifica o número do documento, localiza o processo correspondente no 1Doc, anexa o comprovante e realiza o encaminhamento para a setorização configurada.</p>
+
+    <h2>2. O que o Código Faz (Mapeamento de Ações)</h2>
+    <p>O script segue um fluxo estrito, previsível e sem tomada de decisões autônomas fora do escopo:</p>
+    <ul>
+        <li><strong>Determinação Automática de Data:</strong> O robô identifica a data de referência útil (pula finais de semana) para buscar a pasta de documentos correta no servidor.</li>
+        <li><strong>Localização Segura de Documentos:</strong> Acessa estritamente o diretório configurado (<code>PASTA_BASE</code>), mapeando subpastas organizadas por <code>Ano -> Mês -> Dia</code>.</li>
+        <li><strong>Leitura e Tratamento dos Arquivos:</strong> Interpreta a nomenclatura padronizada dos PDFs (ex: <em>Despesa Extra</em>, <em>Memorando</em>, <em>Processo Administrativo</em>, <em>Protocolo</em>).</li>
+        <li><strong>Interação com a Plataforma 1Doc:</strong>
+            <ul>
+                <li>Busca pelo número/ano do processo no sistema.</li>
+                <li>Se o processo estiver arquivado, efetua a reabertura formal.</li>
+                <li>Preenche a mensagem padrão de encaminhamento e anexa o arquivo PDF correspondente.</li>
+                <li>Marca as opções de finalização (<em>Arquivar</em> e <em>Parar de acompanhar</em>) e conclui a operação.</li>
+            </ul>
+        </li>
+        <li><strong>Geração de Logs e Rastreabilidade:</strong> Cria automaticamente um relatório em planilha CSV (<code>processados.csv</code>) listando exatamente todas as ações executadas e pendências encontradas.</li>
+    </ul>
+
+    <h2>3. Scripts de Suporte e Automação de Inicialização (<code>.bat</code>)</h2>
+    <p>Para garantir facilidade operacional e evitar a necessidade de interação manual com o terminal de comando pelo usuário final, a solução conta com dois scripts utilitários em lote do Windows (<code>.bat</code>):</p>
+
+    <h3>A. Script de Instalação e Preparação (<code>instalar.bat</code>)</h3>
+    <ul>
+        <li><strong>Finalidade:</strong> Realiza a configuração inicial do ambiente de execução do sistema.</li>
+        <li><strong>Comportamento Técnico:</strong>
+            <ol>
+                <li>Cria um ambiente virtual Python privado (<code>venv</code>) isolado dentro do próprio diretório do sistema.</li>
+                <li>Atualiza os gerenciadores de pacote e instala estritamente as dependências homologadas listadas no projeto.</li>
+            </ol>
+        </li>
+        <li><strong>Impacto na Segurança:</strong> Garante a isolação do projeto. Nenhuma dependência é instalada globalmente no sistema operacional do cliente, evitando conflitos com outros programas e garantindo um ambiente limpo e controlado.</li>
+    </ul>
+
+    <h3>B. Script de Execução Rápida (<code>executar.bat</code>)</h3>
+    <ul>
+        <li><strong>Finalidade:</strong> Permite ao operador disparar a automação com um duplo clique.</li>
+        <li><strong>Comportamento Técnico:</strong>
+            <ol>
+                <li>Ativa o ambiente virtual Python seguro previamente criado pelo <code>instalar.bat</code>.</li>
+                <li>Executa o script principal (<code>robo_1doc.py</code>) passando os parâmetros padrão de operação.</li>
+            </ol>
+        </li>
+        <li><strong>Impacto na Segurança:</strong> Impede que o usuário execute versões ou comandos incorretos via terminal, garantindo que o robô rode sempre sob as configurações de segurança, pastas e regras padrão homologadas.</li>
+    </ul>
+
+    <h2>4. Pilares de Segurança e Confiabilidade do Script</h2>
+
+    <h3>A. Modo Conferência / Supervisão Humana (<code>MODO_CONFERENCIA = True</code>)</h3>
+    <p>O script conta com a flag <code>MODO_CONFERENCIA</code>. Enquanto ativada, o robô realiza o preenchimento de todas as informações na tela e <strong>solicita confirmação manual do usuário</strong> no terminal antes de efetivar o envio no 1Doc, permitindo auditoria humana durante as primeiras semanas de operação.</p>
+
+    <h3>B. Gestão e Isolamento de Sessão/Navegador</h3>
+    <p>A automação utiliza um perfil de navegador isolado em diretório próprio (<code>perfil_navegador</code>), evitando qualquer interferência com navegadores pessoais do usuário ou contaminação de cookies, aproveitando a sessão autenticada do ambiente homologado.</p>
+
+    <h3>C. Tratamento Explícito de Exceções e Parada Segura (<code>Pendencia</code>)</h3>
+    <p>O script possui uma regra interna customizada (<code>class Pendencia(Exception)</code>). Se houver qualquer dúvida ou inconsistência (ex: mais de uma pasta com o mesmo nome, inconsistência no nome do PDF, erro no upload), o robô <strong>não força nenhuma alteração</strong>, interrompendo o processo do arquivo afetado e registrando o problema no log.</p>
+
+    <h3>D. Armazenamento e Auditoria de Erros</h3>
+    <p>Todas as operações geram um registro em arquivo CSV local (<code>relatorios/processados.csv</code>). Em caso de exceções de sistema ou falha na página, o robô salva automaticamente um print de tela no diretório <code>relatorios/prints_erros/</code>.</p>
+
+    <h2>5. Matriz de Proteção e Riscos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Evento Inesperado</th>
+                <th>Comportamento do Robô / Scripts</th>
+                <th>Garantia de Segurança</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Execução indevida pelo usuário</strong></td>
+                <td>O <code>executar.bat</code> direciona a execução exclusivamente ao ambiente virtual homologado.</td>
+                <td>Impede que o robô seja rodado com configurações adulteradas.</td>
+            </tr>
+            <tr>
+                <td><strong>Queda de conexão / Lento no Upload</strong></td>
+                <td>Aguarda com timeout configurado (<code>ESPERA_UPLOAD_SEG = 60</code>).</td>
+                <td>Impede envios incompletos ou corrupção de anexos.</td>
+            </tr>
+            <tr>
+                <td><strong>PDF com nome fora do padrão</strong></td>
+                <td>Cancela o envio do arquivo e gera um aviso de pendência no CSV.</td>
+                <td>Evita vincular o comprovante ao processo incorreto no 1Doc.</td>
+            </tr>
+            <tr>
+                <td><strong>Mais de uma pasta encontrada</strong></td>
+                <td>Lança exceção e bloqueia o acesso à pasta duplicada.</td>
+                <td>Impede leitura de diretórios errados na rede (<code>Z:\secretaria</code>).</td>
+            </tr>
+            <tr>
+                <td><strong>Ação INDEVIDA no sistema</strong></td>
+                <td>Restrito estritamente aos botões de reabrir, anexar, encaminhar e arquivar.</td>
+                <td>Impossível excluir processos ou alterar dados cadastrais.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Conclusão e Próximos Passos</h2>
+    <p>O script <code>robo_1doc.py</code>, acompanhado dos facilitadores <code>instalar.bat</code> e <code>executar.bat</code>, foi construído com foco em <strong>segurança passiva</strong>, <strong>simplicidade de uso</strong> e <strong>não-destrutividade</strong>.</p>
+    
+    <p><strong>Recomendações:</strong></p>
+    <ol>
+        <li>Executar o <code>instalar.bat</code> no primeiro uso na máquina do cliente.</li>
+        <li>Manter <code>MODO_CONFERENCIA = True</code> durante o período inicial de testes do cliente.</li>
+        <li>Fixar um atalho para o <code>executar.bat</code> na área de trabalho do operador responsável.</li>
+    </ol>
+
+    <div class="footer">
+        <p>Documento gerado para fins de auditoria e homologação técnica de sistemas de automação.</p>
+    </div>
+</div>
+
+</body>
+</html>
